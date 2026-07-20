@@ -26,7 +26,7 @@ Hill DT, Laplante J, Byun S, Alazawi M, Gowie D, Biswas S, Hill L, Zhu Y, Foote 
 
 **rsv-cases-county.csv**: This data file is the county level RSV case counts for the counties included in the study. Oringal data are from the National Respiratory and Enteric Virus Surveillance Sysem (NREVSS).
 
-**rsv-hospitalizations-county.cssv**: This file contains county level RSV hospitalizations. ICD 10 codes that were used for curating these data include the following: 
+**rsv-hospitalizations-county.csv**: This file contains county level RSV hospitalizations. ICD 10 codes that were used for curating these data include the following: 
 
 | ICD 10 code type | Coding System | Codes* | Description |
 |---|---|---|---|
@@ -38,3 +38,5 @@ Hill DT, Laplante J, Byun S, Alazawi M, Gowie D, Biswas S, Hill L, Zhu Y, Foote 
 **rsv-wastewater-county.csv**: This dataset contains county level wastewater results for RSV concentration. Results are measured in gene copies/mL of wastewater. County level estimates are obtained from population-weighed data grouping by week.
 
 ### `figures and tables` folder
+
+This folder contains the R scripts for making each figure or table, including supplementary figures and tables. Note that only county level figures and tables can be made from these scripts. Sewershed level data are not available in this repository.
