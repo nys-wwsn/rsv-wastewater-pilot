@@ -129,3 +129,4 @@ dat_county$season <- ifelse(dat_county$week_number >= 40 | dat_county$week_numbe
 # --- save combined files ---
 save(dat_county,
      file = "data/rsv_combined_data.Rdata")
+
