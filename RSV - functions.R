@@ -38,17 +38,20 @@ map_function <- function(county_name){
             lwd = 1.2)+
     geom_sf(data = sewershed_summary %>%
               filter(county == county_name), 
-            aes(color = `Detection rate`,  size = `Sewershed size`)) +
+            aes(color = `Detection rate`,  size = `Sewershed size`),
+            alpha = 0.7) +
     geom_sf(data = sewershed_summary %>%
               filter(county == county_name),
             aes(size = `Sewershed size`),
-            shape = 1)+
+            shape = 1,
+            stroke = 2)+
     scale_color_manual(name = "Detection rate (%)",
                        values = c("< 30%" = pal[4],
                                   "30% to 40%" = pal[3],
                                   "40% to 50%" = pal[2],
                                   "> 50%" = pal[1])
     )+
+    scale_size_discrete(range = c(6, 14)) +
     theme_dth_maps+
     labs(title = paste(county_name, " County", sep = ""),
          size = "Sewershed size\n(mgd)")+
@@ -80,6 +83,7 @@ map_function <- function(county_name){
   return(gg_inset_map1)
   
 }
+
 # get legend function
 # from this link
 # https://stackoverflow.com/questions/78163631/r-get-legend-from-cowplot-package-no-longer-work-for-ggplot2-version-3-5-0
@@ -746,16 +750,18 @@ cor_hosp_function <- function(dataframe,
                               county_name,
                               comparison_variable,
                               comparison_name,
+                              ww_variable,
                               season_name){
   
   dataframe$comparison_variable <- dataframe[[comparison_variable]]
+  dataframe$ww_variable <- dataframe[[ww_variable]]
   
   d_county <- dataframe %>%
     filter(season %in% season_name) %>%
     filter(county == county_name) 
   set.seed(100)
   case_cor <-  ci_cor(
-    x = as.data.frame(cbind(log1p(d_county$rsv_ww_county), 
+    x = as.data.frame(cbind(log1p(d_county$ww_variable), 
                             log1p(d_county$comparison_variable))),
     probs = c(0.025, 0.95),
     method = "spearman",
@@ -776,13 +782,15 @@ cor_hosp_function <- function(dataframe,
 
 # calculate correlations for each hospitalizations group
 hosp_correlations_stack_function <- function(comparison_variable,
-                                             hosp_group){
+                                             hosp_group,
+                                             ww_variable){
   
   # erie all months hosp data
   row_5 <- cor_hosp_function(
     dataframe = dat_county,
     county_name = "Erie",
     comparison_variable = comparison_variable,
+    ww_variable = ww_variable,
     comparison_name = "log+1(Hospitalizations ~ concentration)",
     season_name = c("Weeks 21 to 39", "Weeks 40 to 20")
   ) %>%
@@ -793,6 +801,7 @@ hosp_correlations_stack_function <- function(comparison_variable,
     dataframe = dat_county,
     county_name = "Jefferson",
     comparison_variable = comparison_variable,
+    ww_variable = ww_variable,
     comparison_name = "log+1(Hospitalizations ~ concentration)",
     season_name = c("Weeks 21 to 39", "Weeks 40 to 20")
   )%>%
@@ -803,6 +812,7 @@ hosp_correlations_stack_function <- function(comparison_variable,
     dataframe = dat_county,
     county_name = "Onondaga",
     comparison_variable = comparison_variable,
+    ww_variable = ww_variable,
     comparison_name = "log+1(Hospitalizations ~ concentration)",
     season_name = c("Weeks 21 to 39", "Weeks 40 to 20")
   )%>%
@@ -813,6 +823,7 @@ hosp_correlations_stack_function <- function(comparison_variable,
     dataframe = dat_county,
     county_name = "Westchester",
     comparison_variable = comparison_variable,
+    ww_variable = ww_variable,
     comparison_name = "log+1(Hospitalizations ~ concentration)",
     season_name = c("Weeks 21 to 39", "Weeks 40 to 20")
   )%>%
@@ -823,6 +834,7 @@ hosp_correlations_stack_function <- function(comparison_variable,
     dataframe = dat_county,
     county_name = "Erie",
     comparison_variable = comparison_variable,
+    ww_variable = ww_variable,
     comparison_name = "log+1(Hospitalizations ~ concentration)",
     season_name = c("Weeks 40 to 20")
   )%>%
@@ -833,6 +845,7 @@ hosp_correlations_stack_function <- function(comparison_variable,
     dataframe = dat_county,
     county_name = "Jefferson",
     comparison_variable = comparison_variable,
+    ww_variable = ww_variable,
     comparison_name = "log+1(Hospitalizations ~ concentration)",
     season_name = c("Weeks 40 to 20")
   )%>%
@@ -843,6 +856,7 @@ hosp_correlations_stack_function <- function(comparison_variable,
     dataframe = dat_county,
     county_name = "Onondaga",
     comparison_variable = comparison_variable,
+    ww_variable = ww_variable,
     comparison_name = "log+1(Hospitalizations ~ concentration)",
     season_name = c("Weeks 40 to 20")
   )%>%
@@ -853,6 +867,7 @@ hosp_correlations_stack_function <- function(comparison_variable,
     dataframe = dat_county,
     county_name = "Westchester",
     comparison_variable = comparison_variable,
+    ww_variable = ww_variable,
     comparison_name = "log+1(Hospitalizations ~ concentration)",
     season_name = c("Weeks 40 to 20")
   )%>%
@@ -863,6 +878,7 @@ hosp_correlations_stack_function <- function(comparison_variable,
     dataframe = dat_county,
     county_name = "Erie",
     comparison_variable = comparison_variable,
+    ww_variable = ww_variable,
     comparison_name = "log+1(Hospitalizations ~ concentration)",
     season_name = c("Weeks 21 to 39")
   )%>%
@@ -873,6 +889,7 @@ hosp_correlations_stack_function <- function(comparison_variable,
     dataframe = dat_county,
     county_name = "Erie",
     comparison_variable = comparison_variable,
+    ww_variable = ww_variable,
     comparison_name = "log+1(Hospitalizations ~ concentration)",
     season_name = c("Weeks 21 to 39")
   )%>%
@@ -883,6 +900,7 @@ hosp_correlations_stack_function <- function(comparison_variable,
     dataframe = dat_county,
     county_name = "Onondaga",
     comparison_variable = comparison_variable,
+    ww_variable = ww_variable,
     comparison_name = "log+1(Hospitalizations ~ concentration)",
     season_name = c("Weeks 21 to 39")
   )%>%
@@ -893,6 +911,7 @@ hosp_correlations_stack_function <- function(comparison_variable,
     dataframe = dat_county,
     county_name = "Westchester",
     comparison_variable = comparison_variable,
+    ww_variable = ww_variable,
     comparison_name = "log+1(Hospitalizations ~ concentration)",
     season_name = c("Weeks 21 to 39")
   )%>%
