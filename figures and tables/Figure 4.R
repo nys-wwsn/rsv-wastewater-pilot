@@ -52,7 +52,7 @@ source("RSV - plot themes.R")
 # Load combined data file
 # --------------------------
 
-load(file = "data/rsv_combined_data.Rdata")
+load(file = "../data/rsv_combined_data.Rdata")
 # export the table from the lag/lead function
 
 # change week to date object
@@ -132,7 +132,9 @@ plot_lags_and_leads<-
   geom_line(lwd = 1)+
   geom_point(aes(shape = as.character(highest_lag)), size = 5)+
   theme_bw()+
-  theme(legend.position = "bottom")+
+  theme(legend.position = "bottom",
+        legend.text = element_text(size = 12),
+        legend.title = element_text(size = 12))+
   labs(
     color = "",
     x = "Lag",
@@ -228,7 +230,9 @@ plot <- ggplot()+
               se = FALSE)+
   theme_dth_1+
   theme(legend.position = "bottom",
-        legend.background = element_blank())+
+        legend.background = element_blank(),
+        legend.text = element_text(size = 12),
+        legend.title = element_text(size = 12))+
   scale_color_manual(values = c("All hospitalizations" = pal[1],
                                 "Positive tests" = pal[2],
                                 "Wastewater concentration" = pal[3],
@@ -253,8 +257,12 @@ plot <- ggplot()+
 plot
 
 # combine plot
-panel <- plot_grid(plot_lags_and_leads + theme(legend.position = "none"),
-                   plot + theme(legend.position = "none"),
+panel <- plot_grid(plot_lags_and_leads + theme(legend.position = "none",
+                                               axis.text = element_text(size = 12),
+                                               axis.title = element_text(size =12)),
+                   plot + theme(legend.position = "none",
+                                axis.text = element_text(size = 12),
+                                axis.title = element_text(size =12)),
                    nrow = 1,
                    rel_widths = c(1.5,2),
                    align = "h", axis = "bt",
@@ -270,7 +278,7 @@ plot_grid(panel, legend,
           rel_heights = c(2, 0.1))
 
 # save
-png("figures and tables/Figure - lag and lead panel with time series.png",
+png("figures and tables/Figure 4 - lag and lead panel with time series.png",
     units = "in",
     width = 12, height = 6,
     res = 600)

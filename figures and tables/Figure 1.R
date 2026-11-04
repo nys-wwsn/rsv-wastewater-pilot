@@ -8,7 +8,7 @@
 
 # Date Created: August 11, 2025
 
-# LAST UPDATED - November 11, 2025
+# LAST UPDATED - November 4, 2025
 
 # --------------------------
 # Packages
@@ -51,7 +51,7 @@ source("RSV - plot themes.R")
 # Load combined data file
 # --------------------------
 
-load(file = "Data/rsv_combined_data.Rdata")
+load(file = "../Data/rsv_combined_data.Rdata")
 
 # Add seasons and pilot county objects
 
@@ -156,7 +156,8 @@ map_leg <-
           lwd = 1.2)+
   geom_sf(data = sewershed_summary %>%
             filter(county == "Erie"), 
-          aes(color = `Detection rate`,  size = `Sewershed size`)) +
+          aes(color = `Detection rate`,  size = `Sewershed size`),
+          alpha = 0.7) +
   geom_sf(data = sewershed_summary %>%
             filter(county == "Erie"),
           aes(size = `Sewershed size`),
@@ -167,6 +168,7 @@ map_leg <-
                                 "40% to 50%" = pal[2],
                                 "> 50%" = pal[1])
   )+
+  scale_size_discrete(range = c(6, 14))+
   theme_dth_maps+
   labs(title = paste("Erie", " County", sep = ""),
        size = "Sewershed size\n(mgd)")+
@@ -184,7 +186,7 @@ map_leg <-
 legend <- get_legend2(map_leg)
 
 # save
-png("figures and tables/panel map3.png",
+png("figures and tables/Figure 1.png",s
     units = "in",
     width = 6, height = 7,
     res = 600)
