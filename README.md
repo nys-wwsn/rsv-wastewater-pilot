@@ -24,7 +24,7 @@ Hill DT, Laplante J, Byun S, Alazawi M, Gowie D, Biswas S, Hill L, Zhu Y, Foote 
 
 **rsv_combined_data.Rdata**: This is an R data filed that contains the dataset used for the analysis and creating the final figures and tables.
 
-**rsv-cases-county.csv**: This data file is the county level RSV case counts for the counties included in the study. Oringal data are from the National Respiratory and Enteric Virus Surveillance Sysem (NREVSS).
+**rsv-cases-county.csv**: This data file is the county level RSV case counts for the counties included in the study. Original data are from the National Respiratory and Enteric Virus Surveillance Sysem (NREVSS).
 
 **rsv-hospitalizations-county.csv**: This file contains county level RSV hospitalizations. ICD 10 codes that were used for curating these data include the following: 
 
@@ -32,7 +32,7 @@ Hill DT, Laplante J, Byun S, Alazawi M, Gowie D, Biswas S, Hill L, Zhu Y, Foote 
 |---|---|---|---|
 | All diagnoses | ICD-10 | J12.1 | RSV Pneumonia |
 | All diagnoses | ICD-10 | J21.0 | RSV Acute Bronchiolitis |
-| All diagnoses | ICD-10 | J21.5 | RSV Bronchitis |
+| All diagnoses | ICD-10 | J20.5 | RSV Bronchitis |
 | All diagnoses | ICD-10 | B97.4 | RSV as cause of other diseases |
 
 **rsv-wastewater-county.csv**: This dataset contains county level wastewater results for RSV concentration. Results are measured in gene copies/mL of wastewater. County level estimates are obtained from population-weighed data grouping by week.
