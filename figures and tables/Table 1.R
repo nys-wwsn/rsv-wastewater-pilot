@@ -49,25 +49,29 @@ source("../RSV - plot themes.R")
 # Load combined data file
 # --------------------------
 
-load("data/rsv_combined_data.Rdata")
+load("../data/rsv_combined_data.Rdata")
+
+# ---------------------------------
+# Summary Table - ww data all months and by season
+# ---------------------------------
 
 # ---------------------------------
 # Summary Table - ww data all months and by season
 # ---------------------------------
 
 # summarize the ww data by season
-dat_ww_descrip <- dat_county %>%
+dat_ww_descrip <- dat_sewershed  %>%
   ungroup() %>%
   group_by(county) %>%
-  summarize(n_sewersheds = max(n_sewersheds),
-            n_samples = sum(n_samples),
+  summarize(n_sewersheds = length(unique(sw_id)),
+            n_samples = sum(n_samples, na.rm = TRUE),
             `min collection date` = min(week),
             `max collection date` = max(week),
-            mean = mean(rsv_ww_county, na.rm = TRUE),
-            min = min(rsv_ww_county, na.rm = TRUE),
-            median = median(rsv_ww_county, na.rm = TRUE),
-            max = max(rsv_ww_county, na.rm = TRUE),
-            distribution = list(rsv_ww_county)
+            mean = mean(rsv_ww_mean, na.rm = TRUE),
+            min = min(rsv_ww_mean, na.rm = TRUE),
+            median = median(rsv_ww_mean, na.rm = TRUE),
+            max = max(rsv_ww_mean, na.rm = TRUE),
+            distribution = list(rsv_ww_mean)
   ) %>%
   ungroup() %>%
   mutate(group = "Wastewater data") %>%
@@ -75,14 +79,13 @@ dat_ww_descrip <- dat_county %>%
   select(group, everything())
 
 # detection rate
-dat_descrip_DR <- dat_county %>%
-  group_by( county) %>%
+dat_descrip_DR <- dat_sewershed %>%
+  group_by(sw_id, county) %>%
   summarize(
-    n_sewersheds = max(n_sewersheds),
     n_samples = sum(n_samples, na.rm = TRUE),
     min_date = min(week, na.rm = TRUE),
     max_date = max(week, na.rm = TRUE),
-    n_positives = sum(n_positives, na.rm = TRUE)
+    n_positives = sum(positives, na.rm = TRUE)
   ) %>%
   ungroup()%>%
   group_by(county) %>%
@@ -90,7 +93,7 @@ dat_descrip_DR <- dat_county %>%
   ungroup() %>%
   group_by(county) %>%
   summarize(
-    n_sewersheds = max(n_sewersheds),
+    n_sewersheds = length(unique(sw_id)),
     n_samples = sum(n_samples),
     mean = mean(`Detection rate`, na.rm = TRUE),
     min = min(`Detection rate`, na.rm = TRUE),
@@ -334,7 +337,7 @@ dataframe <- table_1
 table_1_ft <- table_as_flex_rsv_function(
   dataframe = table_1, 
   title = 
-    "Table 1: Descriptive statistics (note these use county population weighted values for wastewater. Facility level data were used in the version published in the paper)")
+    "Table 1: Descriptive statistics")
 table_1_ft
 
 # save as doc
